@@ -2,7 +2,19 @@ const fs = require('fs');
 const {exec} = require('child_process');
 
 const buildPath = "build";
-const manifest = "manifest.json";
+const chromeExtensionManifest = "manifest.json";
+
+let watch = false;
+
+for (let i = 2; i < process.argv.length; i++) {
+    switch (process.argv[i]) {
+        case "-w":
+            watch = true;
+            break;
+        default:
+            throw "Unexpected argument : " + process.argv[i]
+    }
+}
 
 function rmDir(dirPath) {
     let files;
@@ -35,12 +47,20 @@ function build() {
         fs.mkdirSync(buildPath)
     }
 
-    exec('tsc');
+    fs.createReadStream(chromeExtensionManifest).pipe(fs.createWriteStream(buildPath + "/" + chromeExtensionManifest));
 
-    fs.createReadStream(manifest).pipe(fs.createWriteStream(buildPath+"/"+manifest));
+
+    if (watch) {
+        exec('tsc -w').stdout.on('data', (data) => {
+            console.log(data.toString())
+        });
+    } else {
+        exec('tsc').stdout.on('data', (data) => {
+            console.log(data.toString())
+        });
+    }
 
 }
-
 
 clean();
 build();
