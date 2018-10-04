@@ -6,10 +6,13 @@
   "manifest_version": 2,
   "content_scripts": [
     {
-      "css": [],
       "js": [
         "main.js"
-      ]
+      ],
+      "matches": [
+        "*://mangadex.org/follows*"
+      ],
+      "run_at": "document_start"
     }
   ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
@@ -17,6 +20,5 @@
     "tabs",
     "webRequest",
     "*://mangadex.org/follows"
-  ],
-  "key": "MYSUPERAWESOMEKEY"
+  ]
 }
