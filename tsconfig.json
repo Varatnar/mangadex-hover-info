@@ -1,8 +1,12 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "moduleResolution": "node",
-    "module": "commonjs",
-    "sourceMap": true
-  }
+    "noImplicitAny": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "outDir": "build"
+  },
+  "include": [
+    "src/**/*"
+  ]
 }

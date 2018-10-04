@@ -1,15 +1,13 @@
 {
-  "name": "paradox-map-export-polisher",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "mangadex-hover-info",
+  "version": "0.1.0",
+  "description": "Enable hover popup in diffrent location of the website mangadex.com",
   "scripts": {
-    "start": "electron . --allow-file-access-from-files"
+    "build" : "node build.js"
   },
   "author": "Philippe Leclerc",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^10.9.4",
     "tslint": "^5.11.0",
     "typescript": "^3.0.1"
   }
