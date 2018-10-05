@@ -4,7 +4,6 @@ const tsify = require('tsify');
 const watchify = require('watchify');
 
 const buildPath = "build";
-const chromeExtensionManifest = "manifest.json";
 
 let watch = false;
 let cleanFlag = false;
@@ -55,7 +54,7 @@ function build() {
         fs.mkdirSync(buildPath)
     }
 
-    fs.createReadStream(chromeExtensionManifest).pipe(fs.createWriteStream(buildPath + "/" + chromeExtensionManifest));
+    fs.createReadStream("src/chrome_manifest.json").pipe(fs.createWriteStream(buildPath + "/manifest.json"));
     fs.createReadStream("src/styles/style.css").pipe(fs.createWriteStream(buildPath + "/style.css"));
 
     let b = browserify({
