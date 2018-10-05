@@ -24,7 +24,9 @@ function retrieveImagePathForManga(mangaPath: string): Promise<MangaInfo> {
 
             console.log(imagePath);
 
-            return new MangaInfo(imagePath, "");
+            const descriptionTag: HTMLDivElement = htmlDocument.documentElement.querySelector("div.card-body > div > div > div:nth-child(9) >div:nth-child(2)");
+
+            return new MangaInfo(imagePath, descriptionTag.innerHTML);
         })
         .catch((err) => {
             console.log(err);
