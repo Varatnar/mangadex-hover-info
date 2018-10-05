@@ -56,6 +56,7 @@ function build() {
     }
 
     fs.createReadStream(chromeExtensionManifest).pipe(fs.createWriteStream(buildPath + "/" + chromeExtensionManifest));
+    fs.createReadStream("src/styles/style.css").pipe(fs.createWriteStream(buildPath + "/style.css"));
 
     let b = browserify({
         cache: {},

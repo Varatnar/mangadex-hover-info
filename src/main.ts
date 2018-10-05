@@ -1,3 +1,10 @@
+const globalPopUp: HTMLDivElement = document.createElement("div");
+globalPopUp.classList.add("globalPopUp");
+document.body.appendChild(globalPopUp);
+
+const globalImage: HTMLImageElement = document.createElement("img");
+globalImage.width = 200;
+globalPopUp.appendChild(globalImage);
 
 /**
  * Given an url, find the image for the manga.
@@ -36,14 +43,21 @@ function addOnMouseOver() {
     const selector = "div.chapter-container > div > div > a";
 
     document.querySelectorAll(selector).forEach((element: HTMLLinkElement) => {
-        element.addEventListener("mouseover", () => {
+        element.addEventListener("mouseover", (event) => {
 
-            const image: HTMLImageElement = document.createElement("img");
+            globalPopUp.style.left = `${event.clientX + 10}px`;
+            globalPopUp.style.top = `${event.clientY + 10}px`;
+
+            globalPopUp.style.visibility = "visible";
 
             retrieveImagePathForManga(element.href).then((imagePath) => {
-                image.src = imagePath;
-                element.parentElement.appendChild(image);
+                globalImage.src = imagePath;
             });
+        });
+
+        element.addEventListener("mouseout", () => {
+            globalPopUp.style.visibility = "hidden";
+            globalImage.src = "";
         });
     });
 }

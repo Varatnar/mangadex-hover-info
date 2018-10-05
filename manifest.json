@@ -6,6 +6,9 @@
   "manifest_version": 2,
   "content_scripts": [
     {
+      "css": [
+        "style.css"
+      ],
       "js": [
         "main.js"
       ],

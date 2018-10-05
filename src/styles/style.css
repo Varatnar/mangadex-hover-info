@@ -1,0 +1,9 @@
+.globalPopUp {
+    top: 0;
+    right: 0;
+    position: absolute;
+    visibility: hidden;
+    width: 300px;
+    height: 300px;
+    z-index: 9999999;
+}
