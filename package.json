@@ -4,12 +4,16 @@
   "description": "Enable hover popup in diffrent location of the website mangadex.com",
   "scripts": {
     "build": "node build.js",
+    "clean": "node build.js -c",
     "watch": "node build.js -w"
   },
   "author": "Philippe Leclerc",
   "license": "MIT",
   "devDependencies": {
     "tslint": "^5.11.0",
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "browserify": "^16.2.3",
+    "tsify": "^4.0.0",
+    "watchify": "^3.11.0"
   }
 }
