@@ -6,6 +6,11 @@
         0
       ]
     },
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore"
+    ],
     "new-parens": true,
     "no-arg": true,
     "no-bitwise": true,

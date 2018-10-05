@@ -1,17 +1,14 @@
-const globalPopUp: HTMLDivElement = document.createElement("div");
-globalPopUp.classList.add("globalPopUp");
-document.body.appendChild(globalPopUp);
+import { InfoContainer } from "./InfoContainer";
+import { MangaInfo } from "./MangaInfo";
 
-const globalImage: HTMLImageElement = document.createElement("img");
-globalImage.width = 200;
-globalPopUp.appendChild(globalImage);
+const globalPopUp: InfoContainer = new InfoContainer(document);
 
 /**
  * Given an url, find the image for the manga.
  *
  * @param mangaPath URL to manga page
  */
-function retrieveImagePathForManga(mangaPath: string): Promise<string> {
+function retrieveImagePathForManga(mangaPath: string): Promise<MangaInfo> {
     console.log(`Retrieving page ${mangaPath}`);
 
     let imagePath: string;
@@ -27,7 +24,7 @@ function retrieveImagePathForManga(mangaPath: string): Promise<string> {
 
             console.log(imagePath);
 
-            return imagePath;
+            return new MangaInfo(imagePath, "");
         })
         .catch((err) => {
             console.log(err);
@@ -38,26 +35,24 @@ function retrieveImagePathForManga(mangaPath: string): Promise<string> {
 /**
  * Add event listener on all the page's manga link.
  */
-function addOnMouseOver() {
+function addOnMouseOver(): void {
 
     const selector = "div.chapter-container > div > div > a";
 
     document.querySelectorAll(selector).forEach((element: HTMLLinkElement) => {
         element.addEventListener("mouseover", (event) => {
 
-            globalPopUp.style.left = `${event.clientX + 10}px`;
-            globalPopUp.style.top = `${event.clientY + 10}px`;
+            globalPopUp.updatePosition(event);
+            globalPopUp.show();
 
-            globalPopUp.style.visibility = "visible";
-
-            retrieveImagePathForManga(element.href).then((imagePath) => {
-                globalImage.src = imagePath;
+            retrieveImagePathForManga(element.href).then((mangaInfo) => {
+                globalPopUp.changeImage(mangaInfo.imagePath);
             });
         });
 
         element.addEventListener("mouseout", () => {
-            globalPopUp.style.visibility = "hidden";
-            globalImage.src = "";
+            globalPopUp.hide();
+            globalPopUp.changeImage(""); // Removing image from tooltip
         });
     });
 }
