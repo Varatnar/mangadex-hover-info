@@ -3,12 +3,14 @@ import { MangaInfo } from "./MangaInfo";
 
 const globalPopUp: InfoContainer = new InfoContainer(document);
 
+let timeoutId: number;
+
 /**
  * Given an url, find the image for the manga.
  *
  * @param mangaPath URL to manga page
  */
-function retrieveImagePathForManga(mangaPath: string): Promise<MangaInfo> {
+function retrieveMangaInfoForManga(mangaPath: string): Promise<MangaInfo> {
     console.log(`Retrieving page ${mangaPath}`);
 
     let imagePath: string;
@@ -44,17 +46,29 @@ function addOnMouseOver(): void {
     document.querySelectorAll(selector).forEach((element: HTMLLinkElement) => {
         element.addEventListener("mouseover", (event) => {
 
-            globalPopUp.updatePosition(event);
-            globalPopUp.show();
+            if (!timeoutId) {
+                timeoutId = window.setTimeout(() => {
+                    timeoutId = null;
 
-            retrieveImagePathForManga(element.href).then((mangaInfo) => {
-                globalPopUp.changeImage(mangaInfo.imagePath);
-            });
+                    globalPopUp.updatePosition(event);
+                    globalPopUp.show();
+
+                    retrieveMangaInfoForManga(element.href).then((mangaInfo) => {
+                        globalPopUp.changeImage(mangaInfo.imagePath);
+                    });
+                }, 1000);
+            }
+
         });
 
         element.addEventListener("mouseout", () => {
-            globalPopUp.hide();
-            globalPopUp.changeImage(""); // Removing image from tooltip
+            if (timeoutId) {
+                window.clearTimeout(timeoutId);
+                timeoutId = null;
+            } else {
+                globalPopUp.hide();
+                globalPopUp.changeImage(""); // Removing image from tooltip
+            }
         });
     });
 }

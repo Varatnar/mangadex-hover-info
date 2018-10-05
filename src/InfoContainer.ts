@@ -29,9 +29,4 @@ export class InfoContainer {
     public show() {
         this._mainContainer.style.visibility = "visible";
     }
-
-    get mainContainer(): HTMLDivElement {
-        return this._mainContainer;
-    }
-
 }
