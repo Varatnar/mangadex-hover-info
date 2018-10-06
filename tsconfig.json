@@ -4,7 +4,10 @@
     "noImplicitAny": true,
     "removeComments": true,
     "sourceMap": true,
-    "outDir": "build"
+    "outDir": "build",
+    "lib": [
+      "es2015", "es2016", "dom"
+    ]
   },
   "include": [
     "src/**/*.ts"

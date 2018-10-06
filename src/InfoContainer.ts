@@ -1,20 +1,25 @@
+import { MangaInfo } from "./MangaInfo";
+
 export class InfoContainer {
 
     private _mainContainer: HTMLDivElement;
-    private image: HTMLImageElement;
+    private _image: HTMLImageElement;
+
+    private currentDataUrl: string;
 
     public constructor(doc: HTMLDocument) {
         this._mainContainer = doc.createElement("div");
         this._mainContainer.classList.add("globalPopUp");
 
-        this.image = doc.createElement("img");
-        this.image.width = 200;
-        this._mainContainer.appendChild(this.image);
+        this._image = doc.createElement("img");
+        this._image.width = 200;
+        this._mainContainer.appendChild(this._image);
         doc.body.appendChild(this._mainContainer);
     }
 
-    public changeImage(path: string): void {
-        this.image.src = path;
+    public changeInfo(data: MangaInfo, sourcePath: string): void {
+        this.currentDataUrl = sourcePath;
+        this._image.src = data.imagePath || "";
     }
 
     public updatePosition(event: MouseEvent) {
@@ -28,5 +33,9 @@ export class InfoContainer {
 
     public show() {
         this._mainContainer.style.visibility = "visible";
+    }
+
+    public alreadyGoodData(element: HTMLLinkElement) {
+        return element.href === this.currentDataUrl;
     }
 }

@@ -80,20 +80,21 @@ function build() {
     function bundle(watching) {
         b.bundle()
             .on('error', console.error)
-            .pipe(fs.createWriteStream("build/main.js"));
+            .pipe(fs.createWriteStream("build/main.js"))
+            .on('finish', () => {
+                if (!watchFirstFlag) {
+                    console.log("Build completed");
 
-        if (!watchFirstFlag) {
-            console.log("Build completed");
+                    if (watching) {
+                        console.log("\nWatching for changes...\n")
+                    }
 
-            if (watching) {
-                console.log("\nWatching for changes...\n")
-            }
+                    watchFirstFlag = true;
+                } else {
+                    console.log("Rebuild completed");
 
-            watchFirstFlag = true;
-        } else {
-            console.log("Rebuild completed");
-
-        }
+                }
+            });
     }
 }
 
