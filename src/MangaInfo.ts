@@ -1,8 +1,8 @@
 export class MangaInfo {
 
-    private _imagePath: string;
-    private _description: string;
-    private _tags: string[];
+    private readonly _imagePath: string;
+    private readonly _description: string;
+    private readonly _tags: string[];
 
     constructor(imgPath: string, desc: string) {
         this._imagePath = imgPath;

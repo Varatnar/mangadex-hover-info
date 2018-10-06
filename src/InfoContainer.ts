@@ -2,8 +2,8 @@ import { MangaInfo } from "./MangaInfo";
 
 export class InfoContainer {
 
-    private _mainContainer: HTMLDivElement;
-    private _image: HTMLImageElement;
+    private readonly _mainContainer: HTMLDivElement;
+    private readonly _image: HTMLImageElement;
 
     private currentDataUrl: string;
 
