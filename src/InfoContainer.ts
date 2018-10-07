@@ -19,7 +19,7 @@ export class InfoContainer {
 
     public changeInfo(data: MangaInfo, sourcePath: string): void {
         this.currentDataUrl = sourcePath;
-        this._image.src = data.imagePath || "";
+        this._image.src = data === null ? "" : data.imagePath;
     }
 
     public updatePosition(event: MouseEvent) {
