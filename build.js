@@ -61,7 +61,7 @@ function build() {
         cache: {},
         packageCache: {}
     });
-    b.add("src/main.ts");
+    b.add("src/main.tsx");
     b.plugin(tsify, {noImplicitAny: true});
 
     if (watch) {

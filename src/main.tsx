@@ -1,7 +1,9 @@
-import { InfoContainer } from "./InfoContainer";
+import * as  React from "react";
+import * as ReactDom from "react-dom";
+import { InfoContainer } from "./InfoContainer/InfoContainer";
 import { MangaInfo } from "./MangaInfo";
 
-const globalPopUp: InfoContainer = new InfoContainer(document);
+const globalPopUp = ReactDom.render(<InfoContainer/>, document.body.appendChild(document.createElement("div"))) as InfoContainer;
 
 let timeoutId: number;
 

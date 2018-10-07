@@ -7,3 +7,7 @@
     height: 300px;
     z-index: 9999999;
 }
+
+.manga-image {
+    width: 200px;
+}
