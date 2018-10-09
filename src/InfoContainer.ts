@@ -4,6 +4,7 @@ export class InfoContainer {
 
     private readonly _mainContainer: HTMLDivElement;
     private readonly _image: HTMLImageElement;
+    private readonly _description: HTMLSpanElement;
 
     private currentDataUrl: string;
 
@@ -13,13 +14,24 @@ export class InfoContainer {
 
         this._image = doc.createElement("img");
         this._image.width = 200;
+
+        const descDiv = doc.createElement("div");
+        descDiv.classList.add("manga-description");
+
+        this._description = doc.createElement("span");
+
+        descDiv.appendChild(this._description);
+
         this._mainContainer.appendChild(this._image);
+        this._mainContainer.appendChild(descDiv);
+
         doc.body.appendChild(this._mainContainer);
     }
 
     public changeInfo(data: MangaInfo, sourcePath: string): void {
         this.currentDataUrl = sourcePath;
         this._image.src = data === null ? "" : data.imagePath;
+        this._description.innerHTML = data === null ? "" : data.description;
     }
 
     public updatePosition(event: MouseEvent) {

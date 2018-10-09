@@ -1,9 +1,22 @@
 .globalPopUp {
+    background-color: inherit;
     top: 0;
     right: 0;
     position: absolute;
     visibility: hidden;
-    width: 300px;
+    width: 600px;
     height: 300px;
     z-index: 9999999;
+}
+
+div.manga-description {
+    background-color: inherit;
+    width: 390px;
+    margin-left: 10px;
+    float: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 17;
+    -webkit-box-orient: vertical;
 }

@@ -18,8 +18,15 @@ async function retrieveMangaInfoForManga(mangaPath: string): Promise<MangaInfo> 
         const htmlDocument = parser.parseFromString(await (await fetch(mangaPath)).text(), "text/html");
         const image: HTMLImageElement = htmlDocument.documentElement.querySelector("div.card-body > div > div > img");
 
-        const descriptionTag: HTMLDivElement = htmlDocument.documentElement.querySelector("div.card-body > div > div > div:nth-child(9) >div:nth-child(2)");
-        return new MangaInfo(image.src, descriptionTag.innerHTML);
+        // const descriptionTag: HTMLDivElement = htmlDocument.documentElement.querySelector("div.card-body > div > div > div:nth-child(9) >div:nth-child(2)");
+        let description: string = "";
+        htmlDocument.documentElement.querySelectorAll("div.card-body > div > div > div").forEach((div: HTMLDivElement) => {
+            if (div.querySelector("div:nth-child(1)").innerHTML.includes("Description")) {
+                description = div.querySelector("div:nth-child(2)").innerHTML;
+            }
+        });
+
+        return new MangaInfo(image.src, description);
     } catch (err) {
         console.log(err);
         throw new Error("Unexpected error");
