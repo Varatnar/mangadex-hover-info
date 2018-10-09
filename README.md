@@ -23,3 +23,5 @@ https://mangadex.org/ .
     ```
 
 The built artifacts are available at `projectRoot/build`
+
+Icons used in this repo have been designed by `Freepik` from Flaticon.

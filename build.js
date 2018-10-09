@@ -2,6 +2,7 @@ const fs = require('fs');
 const browserify = require('browserify');
 const tsify = require('tsify');
 const watchify = require('watchify');
+const ncp = require('ncp').ncp;
 
 const buildPath = "build";
 
@@ -56,6 +57,8 @@ function build() {
 
     fs.createReadStream("src/chrome_manifest.json").pipe(fs.createWriteStream(buildPath + "/manifest.json"));
     fs.createReadStream("src/styles/style.css").pipe(fs.createWriteStream(buildPath + "/style.css"));
+
+    ncp("src/assets", buildPath + "/assets");
 
     let b = browserify({
         cache: {},

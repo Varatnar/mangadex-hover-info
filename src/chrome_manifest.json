@@ -4,6 +4,14 @@
   "description": "",
   "version": "0.1.0",
   "manifest_version": 2,
+  "icons": {
+    "16": "assets/cat-face-outline-16.png",
+    "24": "assets/cat-face-outline-24.png",
+    "32": "assets/cat-face-outline-32.png",
+    "64": "assets/cat-face-outline-64.png",
+    "128": "assets/cat-face-outline-128.png",
+    "256": "assets/cat-face-outline-256.png"
+  },
   "content_scripts": [
     {
       "css": [
