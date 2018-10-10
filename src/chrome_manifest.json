@@ -21,7 +21,8 @@
         "main.js"
       ],
       "matches": [
-        "*://mangadex.org/follows*"
+        "*://mangadex.org/follows*",
+        "*://mangadex.org/group*"
       ],
       "run_at": "document_end"
     }

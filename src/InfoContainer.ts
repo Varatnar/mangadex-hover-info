@@ -34,9 +34,10 @@ export class InfoContainer {
         this._description.innerHTML = data === null ? "" : data.description;
     }
 
-    public updatePosition(event: MouseEvent) {
-        this._mainContainer.style.left = `${event.clientX + 10}px`;
-        this._mainContainer.style.top = `${event.clientY + 10}px`;
+    public updatePosition(element: HTMLElement) {
+
+        this._mainContainer.style.left = `${(window.pageXOffset || document.documentElement.scrollLeft) + element.parentElement.getBoundingClientRect().left + element.parentElement.getBoundingClientRect().width }px`;
+        this._mainContainer.style.top = `${(window.pageYOffset || document.documentElement.scrollTop) + element.parentElement.getBoundingClientRect().top}px`;
     }
 
     public hide() {

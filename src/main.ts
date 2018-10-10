@@ -40,11 +40,11 @@ function addOnMouseOver(): void {
     const selector = "div.chapter-container > div > div > a";
 
     document.querySelectorAll(selector).forEach((element: HTMLLinkElement) => {
-        element.addEventListener("mouseover", (event) => {
+        element.addEventListener("mouseover", () => {
 
             // Simily caching..
             if (globalPopUp.alreadyGoodData(element)) {
-                globalPopUp.updatePosition(event);
+                globalPopUp.updatePosition(element);
                 globalPopUp.show();
                 return;
             }
@@ -54,7 +54,7 @@ function addOnMouseOver(): void {
                     globalPopUp.changeInfo(null, ""); // Removing image from tooltip
                     timeoutId = null;
 
-                    globalPopUp.updatePosition(event);
+                    globalPopUp.updatePosition(element);
                     globalPopUp.show();
 
                     globalPopUp.changeInfo((await retrieveMangaInfoForManga(element.href)), element.href);
