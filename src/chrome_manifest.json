@@ -1,8 +1,6 @@
 {
   "name": "mangadex-hover-info",
   "short_name": "MHI",
-  "description": "",
-  "version": "0.1.0",
   "manifest_version": 2,
   "icons": {
     "16": "assets/cat-face-outline-16.png",
@@ -30,7 +28,6 @@
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "permissions": [
     "tabs",
-    "webRequest",
-    "*://mangadex.org/follows"
+    "webRequest"
   ]
 }
