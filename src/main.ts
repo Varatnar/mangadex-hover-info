@@ -16,7 +16,7 @@ async function retrieveMangaInfoForManga(mangaPath: string): Promise<MangaInfo> 
     try {
         const parser = new DOMParser();
         const htmlDocument = parser.parseFromString(await (await fetch(mangaPath)).text(), "text/html");
-        const image: HTMLImageElement = htmlDocument.documentElement.querySelector("div.card-body > div > div > img");
+        const image: HTMLImageElement = htmlDocument.documentElement.querySelector("div.card-body > div > div > a > img");
 
         let description: string = "COULD NOT FIND DESCRIPTION !!";
         htmlDocument.documentElement.querySelectorAll("div.card-body > div > div > div").forEach((div: HTMLDivElement) => {
