@@ -34,10 +34,12 @@ export class InfoContainer {
         this._description.innerHTML = data === null ? "" : data.description;
     }
 
-    public updatePosition(element: HTMLElement) {
+    public updatePosition(element: HTMLElement): InfoContainer {
 
-        this._mainContainer.style.left = `${(window.pageXOffset || document.documentElement.scrollLeft) + element.parentElement.getBoundingClientRect().left + element.parentElement.getBoundingClientRect().width }px`;
+        this._mainContainer.style.left = `${(window.pageXOffset || document.documentElement.scrollLeft) + element.parentElement.getBoundingClientRect().left + element.parentElement.getBoundingClientRect().width}px`;
         this._mainContainer.style.top = `${(window.pageYOffset || document.documentElement.scrollTop) + element.parentElement.getBoundingClientRect().top}px`;
+
+        return this;
     }
 
     public hide() {
