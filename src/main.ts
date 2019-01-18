@@ -31,7 +31,7 @@ async function retrieveMangaInfoForManga(mangaPath: string): Promise<MangaInfo> 
             }
         });
 
-        return new MangaInfo(image.src, description);
+        return new MangaInfo(image.src, description, null);
     } catch (err) {
         console.log(err);
         throw new Error("Unexpected error");
@@ -51,7 +51,7 @@ async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo>
 
         console.log(mangaData);
 
-        return new MangaInfo(mangaData.manga.cover_url, mangaData.manga.description);
+        return new MangaInfo(mangaData.manga.cover_url, mangaData.manga.description, mangaData.manga.genres);
 
     } catch (err) {
         console.log(err);

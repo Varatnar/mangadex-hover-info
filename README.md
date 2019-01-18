@@ -16,6 +16,12 @@ https://mangadex.org/ .
        $ yarn
     ```
     
+1. Retrieve the tags id and names
+
+    ```bash
+       $ yarn tags
+    ```    
+    
 1. Build the project by calling `yarn build`
 
     ```bash
