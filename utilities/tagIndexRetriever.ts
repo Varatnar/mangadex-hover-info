@@ -3,7 +3,7 @@ import { JSDOM } from "jsdom";
 import fetch from "node-fetch";
 import { Tag } from "../src/models/Tag";
 
-const tagsDataPath = "src/assets/tags.data";
+const tagsDataPath = "src/assets/tags.json";
 
 // todo: add more constants/variables (less hardcoding)
 (() => {
