@@ -82,7 +82,7 @@ export class InfoContainer {
     private addTag(tag: Tag) {
 
         const tagElement: HTMLSpanElement = document.createElement("span");
-        tagElement.classList.add("tag-description");
+        tagElement.classList.add("tag-description", "badge");
 
         tagElement.innerHTML = tag.name;
 
