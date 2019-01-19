@@ -27,7 +27,6 @@ const tagsDataPath = "src/assets/tags.json";
                 // get the english name
                 name = element.querySelector("label > span").textContent;
 
-                // console.log(`Id [${id}] => Name [\"${name}\"]`);
                 tags.push(new Tag(id, name));
             });
 
