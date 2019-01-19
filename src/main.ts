@@ -1,3 +1,5 @@
+import { Vue } from "vue-property-decorator";
+import InfoVue from "./components/InfoVue.vue";
 import { InfoContainer } from "./InfoContainer";
 import { MangaInfo } from "./MangaInfo";
 import { MangaModel } from "./models/api/MangaModel";
@@ -47,7 +49,7 @@ async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo>
     console.log(`Retrieving manga info with id [${mangaId}]`);
 
     try {
-        const mangaData: MangaModel = await(await fetch(`${BASE_MANGA_API_URL}/${mangaId}`)).json();
+        const mangaData: MangaModel = await (await fetch(`${BASE_MANGA_API_URL}/${mangaId}`)).json();
 
         console.log(mangaData);
 
@@ -61,6 +63,7 @@ async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo>
 
 /**
  * Add event listener on all the page's manga link.
+ * @deprecated
  */
 function addOnMouseOver(): void {
 
@@ -107,4 +110,49 @@ function extractMangaIdFromUrl(mangaUrl: string): string {
     return splitUrl[splitUrl.length - 2];
 }
 
-addOnMouseOver();
+// Adding mouse hover events
+(() => {
+    const vueContainer = document.createElement("div");
+    vueContainer.id = "vueContainer";
+    document.body.appendChild(vueContainer);
+
+    const vueContainerWrapper = new Vue({
+        render: (h) => h(InfoVue),
+    }).$mount("#vueContainer");
+
+    const vueContainerElement = vueContainerWrapper.$children[0];
+
+    const selector = "div.chapter-container > div > div > a";
+
+    document.querySelectorAll(selector).forEach((element: HTMLLinkElement) => {
+        element.addEventListener("mouseover", () => {
+
+            if (!timeoutId) {
+                timeoutId = window.setTimeout(async () => {
+                    // @ts-ignore
+                    vueContainerElement.clearData();
+                    timeoutId = null;
+
+                    // @ts-ignore
+                    vueContainerElement.moveLocationToElement(element);
+
+                    // @ts-ignore
+                    vueContainerElement.changeManga((await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(element.href))));
+
+                }, 1000);
+            }
+
+        });
+
+        element.addEventListener("mouseout", () => {
+            if (timeoutId) {
+                window.clearTimeout(timeoutId);
+                timeoutId = null;
+            } else {
+                // @ts-ignore
+                vueContainerElement.hide();
+            }
+        });
+    });
+
+})();

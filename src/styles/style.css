@@ -24,9 +24,6 @@ div.manga-description {
 div.tags-list {}
 
 span.tag-description {
-    margin: 2px;
-    padding: 1px;
-    font-weight: bold;
     background-color: #2b2b2b;
     border: solid 1px #676767;
 }
