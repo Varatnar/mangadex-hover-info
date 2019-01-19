@@ -1,7 +1,7 @@
 {
   "name": "mangadex-hover-info",
   "version": "0.3.0",
-  "description": "Enable hover popup in diffrent location of the website mangadex.com",
+  "description": "Enable hover popup in different location of the website mangadex.com",
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
