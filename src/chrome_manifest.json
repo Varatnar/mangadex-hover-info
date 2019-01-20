@@ -12,9 +12,7 @@
   },
   "content_scripts": [
     {
-      "css": [
-        "style.css"
-      ],
+      "css": [],
       "js": [
         "main.js"
       ],

@@ -1,8 +1,7 @@
-import { InfoContainer } from "./InfoContainer";
+import { Vue } from "vue-property-decorator";
+import InfoVue from "./components/InfoVue.vue";
 import { MangaInfo } from "./MangaInfo";
 import { MangaModel } from "./models/api/MangaModel";
-
-const globalPopUp: InfoContainer = new InfoContainer(document);
 
 const BASE_MANGADEX_URL: string = "https://mangadex.org";
 const BASE_API_URL: string = `${BASE_MANGADEX_URL}/api`;
@@ -10,33 +9,7 @@ const BASE_MANGA_API_URL: string = `${BASE_API_URL}/manga`;
 
 let timeoutId: number;
 
-/**
- * Given an url, find the info for the manga.
- *
- * @param mangaPath URL to manga page
- * @deprecated
- */
-async function retrieveMangaInfoForManga(mangaPath: string): Promise<MangaInfo> {
-    console.log(`Retrieving page ${mangaPath}`);
-
-    try {
-        const parser = new DOMParser();
-        const htmlDocument = parser.parseFromString(await (await fetch(mangaPath)).text(), "text/html");
-        const image: HTMLImageElement = htmlDocument.documentElement.querySelector("div.card-body > div > div > a > img");
-
-        let description: string = "COULD NOT FIND DESCRIPTION !!";
-        htmlDocument.documentElement.querySelectorAll("div.card-body > div > div > div").forEach((div: HTMLDivElement) => {
-            if (div.querySelector("div:nth-child(1)").innerHTML.includes("Description")) {
-                description = div.querySelector("div:nth-child(2)").innerHTML;
-            }
-        });
-
-        return new MangaInfo(image.src, description, null);
-    } catch (err) {
-        console.log(err);
-        throw new Error("Unexpected error");
-    }
-}
+const similyCacheMap: Map<any, MangaInfo> = new Map();
 
 /**
  * Given a manga id, find the info for the manga.
@@ -47,9 +20,7 @@ async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo>
     console.log(`Retrieving manga info with id [${mangaId}]`);
 
     try {
-        const mangaData: MangaModel = await(await fetch(`${BASE_MANGA_API_URL}/${mangaId}`)).json();
-
-        console.log(mangaData);
+        const mangaData: MangaModel = await (await fetch(`${BASE_MANGA_API_URL}/${mangaId}`)).json();
 
         return new MangaInfo(mangaData.manga.cover_url, mangaData.manga.description, mangaData.manga.genres);
 
@@ -59,34 +30,51 @@ async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo>
     }
 }
 
-/**
- * Add event listener on all the page's manga link.
- */
-function addOnMouseOver(): void {
+function extractMangaIdFromUrl(mangaUrl: string): string {
+    const splitUrl = mangaUrl.split("/");
+    return splitUrl[splitUrl.length - 2];
+}
+
+async function similyCacheControl(cacheKey: any) {
+    if (similyCacheMap.has(cacheKey)) {
+        return similyCacheMap.get(cacheKey);
+    } else {
+        const retrievedManga: MangaInfo = await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(cacheKey));
+        similyCacheMap.set(cacheKey, retrievedManga);
+        return retrievedManga;
+    }
+}
+
+// Adding mouse hover events
+(() => {
+    const vueContainer = document.createElement("div");
+    vueContainer.id = "vueContainer";
+    document.body.appendChild(vueContainer);
+
+    const vueContainerWrapper = new Vue({
+        render: (h) => h(InfoVue),
+    }).$mount("#vueContainer");
+
+    const vueContainerElement = vueContainerWrapper.$children[0];
 
     const selector = "div.chapter-container > div > div > a";
 
     document.querySelectorAll(selector).forEach((element: HTMLLinkElement) => {
         element.addEventListener("mouseover", () => {
 
-            // Simily caching..
-            if (globalPopUp.alreadyGoodData(element)) {
-                globalPopUp.updatePosition(element)
-                    .show();
-                return;
-            }
-
             if (!timeoutId) {
                 timeoutId = window.setTimeout(async () => {
-                    globalPopUp.changeInfo(null, ""); // Removing image from tooltip
+                    // @ts-ignore
+                    vueContainerElement.clearData();
                     timeoutId = null;
 
-                    globalPopUp.updatePosition(element)
-                        .show();
+                    // @ts-ignore
+                    vueContainerElement.moveLocationToElement(element);
 
-                    globalPopUp.changeInfo((await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(element.href))), element.href);
+                    // @ts-ignore
+                    vueContainerElement.changeManga((await similyCacheControl(element.href)));
 
-                }, 1000);
+                }, 300); // todo: don't hard code this value
             }
 
         });
@@ -96,15 +84,10 @@ function addOnMouseOver(): void {
                 window.clearTimeout(timeoutId);
                 timeoutId = null;
             } else {
-                globalPopUp.hide();
+                // @ts-ignore
+                vueContainerElement.hide();
             }
         });
     });
-}
 
-function extractMangaIdFromUrl(mangaUrl: string): string {
-    const splitUrl = mangaUrl.split("/");
-    return splitUrl[splitUrl.length - 2];
-}
-
-addOnMouseOver();
+})();

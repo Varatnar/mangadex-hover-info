@@ -1,6 +1,7 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const buildPath = "build";
 
@@ -11,8 +12,21 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.vue$/,
+                loader: 'vue-loader',
+                options: {
+                    'scss': 'vue-style-loader!css-loader!sass-loader',
+                    'sass': 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
+                }
+            },
+            {
                 test: /\.tsx?$/,
-                use: 'ts-loader',
+                use: {
+                    loader: 'ts-loader',
+                    options: {
+                        appendTsSuffixTo: [/\.vue$/]
+                    }
+                },
                 exclude: /node_modules/
             },
             {
@@ -33,6 +47,7 @@ module.exports = {
         path: path.resolve(__dirname, buildPath)
     },
     plugins: [
+        new VueLoaderPlugin(),
         new CleanWebpackPlugin([buildPath]),
         new CopyWebpackPlugin([
             {
@@ -46,8 +61,7 @@ module.exports = {
                     }))
                 }
             },
-            {from: "src/assets", to: "assets"},
-            {from: "src/styles"}
+            {from: "src/assets", to: "assets"}
         ]),
     ]
 };
