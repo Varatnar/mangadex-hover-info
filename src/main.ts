@@ -9,6 +9,8 @@ const BASE_MANGA_API_URL: string = `${BASE_API_URL}/manga`;
 
 let timeoutId: number;
 
+const similyCacheMap: Map<any, MangaInfo> = new Map();
+
 /**
  * Given a manga id, find the info for the manga.
  *
@@ -31,6 +33,16 @@ async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo>
 function extractMangaIdFromUrl(mangaUrl: string): string {
     const splitUrl = mangaUrl.split("/");
     return splitUrl[splitUrl.length - 2];
+}
+
+async function similyCacheControl(cacheKey: any) {
+    if (similyCacheMap.has(cacheKey)) {
+        return similyCacheMap.get(cacheKey);
+    } else {
+        const retrievedManga: MangaInfo = await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(cacheKey));
+        similyCacheMap.set(cacheKey, retrievedManga);
+        return retrievedManga;
+    }
 }
 
 // Adding mouse hover events
@@ -60,7 +72,7 @@ function extractMangaIdFromUrl(mangaUrl: string): string {
                     vueContainerElement.moveLocationToElement(element);
 
                     // @ts-ignore
-                    vueContainerElement.changeManga((await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(element.href))));
+                    vueContainerElement.changeManga((await similyCacheControl(element.href)));
 
                 }, 300); // todo: don't hard code this value
             }
