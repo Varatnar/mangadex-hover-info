@@ -15,6 +15,10 @@ export class MangaInfo {
         throw new Error(`Could not find tag with index [${index}]`);
     }
 
+    public static withEmptyContent() {
+        return new MangaInfo("", "", []);
+    }
+
     private readonly _imagePath: string;
     private readonly _description: string;
     private readonly _tags: Tag[];

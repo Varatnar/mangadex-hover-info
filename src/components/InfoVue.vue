@@ -18,10 +18,11 @@
     export default class InfoVue extends Vue {
 
         // basic init with empty manga
-        public manga: MangaInfo = new MangaInfo("", "No description", []);
+        public manga: MangaInfo = MangaInfo.withEmptyContent();
 
+        // with default values
         public popupStatus = {
-            visibility: "visible",
+            visibility: "hidden",
             left: "0px",
             top: "0px"
         };
@@ -31,16 +32,14 @@
         }
 
         public hide(): void {
-            console.log("Hidding");
             this.popupStatus.visibility = "hidden";
         }
 
         public clearData() {
-            this.manga = new MangaInfo("", "", []);
+            this.manga = MangaInfo.withEmptyContent();
         }
 
         public moveLocationToElement(element: HTMLElement) {
-            console.log("Chaging location");
             this.popupStatus.left = `${(window.pageXOffset || document.documentElement.scrollLeft) + element.parentElement.getBoundingClientRect().left + element.parentElement.getBoundingClientRect().width}px`;
             this.popupStatus.top = `${(window.pageYOffset || document.documentElement.scrollTop) + element.parentElement.getBoundingClientRect().top}px`;
             this.popupStatus.visibility = "visible";

@@ -51,8 +51,6 @@ async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo>
     try {
         const mangaData: MangaModel = await (await fetch(`${BASE_MANGA_API_URL}/${mangaId}`)).json();
 
-        console.log(mangaData);
-
         return new MangaInfo(mangaData.manga.cover_url, mangaData.manga.description, mangaData.manga.genres);
 
     } catch (err) {
