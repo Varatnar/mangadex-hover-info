@@ -61,8 +61,7 @@ module.exports = {
                     }))
                 }
             },
-            {from: "src/assets", to: "assets"},
-            {from: "src/styles"}
+            {from: "src/assets", to: "assets"}
         ]),
     ]
 };
