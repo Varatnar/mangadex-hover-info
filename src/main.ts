@@ -137,7 +137,7 @@ function extractMangaIdFromUrl(mangaUrl: string): string {
                     // @ts-ignore
                     vueContainerElement.changeManga((await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(element.href))));
 
-                }, 1000);
+                }, 300); // todo: don't hard code this value
             }
 
         });
