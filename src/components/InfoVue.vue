@@ -27,7 +27,7 @@
             top: "0px"
         };
 
-        public changeManga(newManga: MangaInfo) {
+        public changeManga(newManga: MangaInfo): void {
             this.manga = newManga;
         }
 
@@ -35,11 +35,11 @@
             this.popupStatus.visibility = "hidden";
         }
 
-        public clearData() {
+        public clearData(): void {
             this.manga = MangaInfo.withEmptyContent();
         }
 
-        public moveLocationToElement(element: HTMLElement) {
+        public moveLocationToElement(element: HTMLElement): void {
             this.popupStatus.left = `${(window.pageXOffset || document.documentElement.scrollLeft) + element.parentElement.getBoundingClientRect().left + element.parentElement.getBoundingClientRect().width}px`;
             this.popupStatus.top = `${(window.pageYOffset || document.documentElement.scrollTop) + element.parentElement.getBoundingClientRect().top}px`;
             this.popupStatus.visibility = "visible";

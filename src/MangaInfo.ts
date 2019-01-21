@@ -3,7 +3,7 @@ import { Tag } from "./models/Tag";
 
 export class MangaInfo {
 
-    public static readonly data: Tag[] = tagsData as any;
+    public static readonly data: Tag[] = tagsData as any as Tag[];
 
     public static getTagForIndex(index: number): Tag {
         for (const tagData of MangaInfo.data) {

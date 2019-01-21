@@ -55,7 +55,7 @@ async function similyCacheControl(cacheKey: any) {
         render: (h) => h(InfoVue),
     }).$mount("#vueContainer");
 
-    const vueContainerElement = vueContainerWrapper.$children[0];
+    const vueContainerElement: InfoVue = vueContainerWrapper.$children[0] as InfoVue;
 
     const selector = "div.chapter-container > div > div > a";
 
