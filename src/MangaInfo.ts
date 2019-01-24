@@ -15,7 +15,7 @@ export class MangaInfo {
         throw new Error(`Could not find tag with index [${index}]`);
     }
 
-    public static withEmptyContent() {
+    public static withEmptyContent(): MangaInfo{
         return new MangaInfo("", "", []);
     }
 

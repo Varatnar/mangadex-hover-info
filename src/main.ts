@@ -35,7 +35,7 @@ function extractMangaIdFromUrl(mangaUrl: string): string {
     return splitUrl[splitUrl.length - 2];
 }
 
-async function similyCacheControl(cacheKey: any) {
+async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
     if (similyCacheMap.has(cacheKey)) {
         return similyCacheMap.get(cacheKey);
     } else {
