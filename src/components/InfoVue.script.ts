@@ -1,8 +1,5 @@
 import { BBCodeParser } from "@varatnar/bbcode-parser/bin/BBCodeParser";
-import {
-    Component,
-    Vue,
-} from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import { MangaInfo } from "../MangaInfo";
 
 const parser = BBCodeParser.withDefault();
