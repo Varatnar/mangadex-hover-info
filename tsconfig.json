@@ -2,9 +2,12 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "target": "es6",
+    "strict": true,
     "noImplicitAny": true,
     "removeComments": true,
     "sourceMap": true,
+    "esModuleInterop": true,
+    "rootDir": "src",
     "outDir": "build",
     "module": "commonjs",
     "lib": [
@@ -13,6 +16,12 @@
       "dom"
     ]
   },
+  "exclude": [
+    "node_modules",
+    "build",
+    "coverage",
+    "**/*/**.spec.ts"
+  ],
   "include": [
     "src/**/*.ts"
   ]

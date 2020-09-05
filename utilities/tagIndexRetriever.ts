@@ -53,11 +53,21 @@ const cleanupTags = pipe(orderById, removeUnwantedTag);
                    let id: number;
                    let name: string;
 
+                   const potentialId = element.querySelector("input")?.getAttribute("value");
+
+                   if (potentialId == null) {
+                       throw new Error("Unexpected id");
+                   }
+
                    // get the id
-                   id = parseInt(element.querySelector("input").getAttribute("value"), 10);
+                   id = parseInt(potentialId, 10);
 
                    // get the english name
-                   name = element.querySelector("label").textContent;
+                   name = element.querySelector("label")?.textContent ?? "error-name";
+
+                   if (name === "error-name") {
+                       throw new Error(`Unexpected name for id ${id}`);
+                   }
 
                    tags.push(new Tag(id, name));
                });

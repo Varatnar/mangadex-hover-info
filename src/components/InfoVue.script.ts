@@ -30,8 +30,8 @@ export default class InfoVueScript extends Vue {
     }
 
     public moveLocationToElement(element: HTMLElement): void {
-        this.popupStatus.left = `${(window.pageXOffset || document.documentElement.scrollLeft) + element.parentElement.getBoundingClientRect().left + element.parentElement.getBoundingClientRect().width}px`;
-        this.popupStatus.top = `${(window.pageYOffset || document.documentElement.scrollTop) + element.parentElement.getBoundingClientRect().top}px`;
+        this.popupStatus.left = `${(window.pageXOffset || document.documentElement.scrollLeft) + (element.parentElement?.getBoundingClientRect().left ?? 0)+ (element.parentElement?.getBoundingClientRect().width ?? 0)}px`;
+        this.popupStatus.top = `${(window.pageYOffset || document.documentElement.scrollTop) + (element.parentElement?.getBoundingClientRect().top ?? 0)}px`;
         this.popupStatus.visibility = "visible";
     }
 
