@@ -1,12 +1,26 @@
 {
     "name": "mangadex-hover-info",
     "version": "1.0.0",
-    "description": "Enable hover popup in different location of the website mangadex.com",
+    "description": "Enable hover popup in different locations of the website mangadex.org",
     "scripts": {
         "build": "webpack",
         "watch": "webpack --watch",
         "lint": "eslint \"{src,utilities}/**/*.{js,ts}\" --fix",
         "tags": "ts-node utilities/tagIndexRetriever.ts"
+    },
+    "keywords": [
+        "manga",
+        "mangadex",
+        "details",
+        "hover",
+        "popup"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Varatnar/mangadex-hover-info.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Varatnar/mangadex-hover-info/issues"
     },
     "author": "Philippe Leclerc",
     "license": "MIT",
