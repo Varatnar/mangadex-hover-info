@@ -1,5 +1,5 @@
 export interface MangaModel {
-    chapter: any;
+    chapter: never;
     manga: MangaDataModel;
 }
 
@@ -12,7 +12,7 @@ export interface MangaDataModel {
     hentai: number; // 0/1 seem to be the only possibilities but the payload is not an actual boolean, will leave as number for now
     lang_flag: string;
     lang_name: string;
-    links: any;
+    links: never;
     status: number;
     title: string;
 }

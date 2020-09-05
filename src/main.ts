@@ -1,46 +1,55 @@
-import { Vue } from "vue-property-decorator";
-import InfoVue from "./components/InfoVue.vue";
-import { MangaInfo } from "./MangaInfo";
-import { MangaModel } from "./models/api/MangaModel";
-import InfoVueScript from "./components/InfoVue.script";
+import { Vue } from 'vue-property-decorator';
+import InfoVue from './components/InfoVue.vue';
+import { MangaInfo } from './MangaInfo';
+import { MangaModel } from './models/api/MangaModel';
+import InfoVueScript from './components/InfoVue.script';
 
-const BASE_MANGADEX_URL: string = "https://mangadex.org";
+const BASE_MANGADEX_URL: string = 'https://mangadex.org';
 const BASE_API_URL: string = `${BASE_MANGADEX_URL}/api`;
 const BASE_MANGA_API_URL: string = `${BASE_API_URL}/manga`;
 
 let timeoutId: number | null = null;
 
-const similyCacheMap: Map<any, MangaInfo> = new Map();
+const similyCacheMap: Map<string, MangaInfo> = new Map();
 
 /**
  * Given a manga id, find the info for the manga.
  *
  * @param mangaId Id of manga
  */
-async function retrieveMangaInfoWithApiCall(mangaId: string): Promise<MangaInfo> {
+async function retrieveMangaInfoWithApiCall(
+    mangaId: string
+): Promise<MangaInfo> {
     console.log(`Retrieving manga info with id [${mangaId}]`);
 
     try {
-        const mangaData: MangaModel = await (await fetch(`${BASE_MANGA_API_URL}/${mangaId}`)).json();
+        const mangaData: MangaModel = await (
+            await fetch(`${BASE_MANGA_API_URL}/${mangaId}`)
+        ).json();
 
-        return new MangaInfo(mangaData.manga.cover_url, mangaData.manga.description, mangaData.manga.genres);
-
+        return new MangaInfo(
+            mangaData.manga.cover_url,
+            mangaData.manga.description,
+            mangaData.manga.genres
+        );
     } catch (err) {
         console.log(err);
-        throw new Error("Unexpected error");
+        throw new Error('Unexpected error');
     }
 }
 
 function extractMangaIdFromUrl(mangaUrl: string): string {
-    const splitUrl = mangaUrl.split("/");
+    const splitUrl = mangaUrl.split('/');
     return splitUrl[splitUrl.length - 2];
 }
 
-async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
+async function similyCacheControl(cacheKey: string): Promise<MangaInfo> {
     if (similyCacheMap.has(cacheKey)) {
         return similyCacheMap.get(cacheKey) as MangaInfo; // if statement makes sure it is not undefined
     } else {
-        const retrievedManga: MangaInfo = await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(cacheKey));
+        const retrievedManga: MangaInfo = await retrieveMangaInfoWithApiCall(
+            extractMangaIdFromUrl(cacheKey)
+        );
         similyCacheMap.set(cacheKey, retrievedManga);
         return retrievedManga;
     }
@@ -48,21 +57,21 @@ async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
 
 // Adding mouse hover events
 (() => {
-    const vueContainer = document.createElement("div");
-    vueContainer.id = "vueContainer";
+    const vueContainer = document.createElement('div');
+    vueContainer.id = 'vueContainer';
     document.body.appendChild(vueContainer);
 
     const vueContainerWrapper = new Vue({
         render: (h) => h(InfoVue),
-    }).$mount("#vueContainer");
+    }).$mount('#vueContainer');
 
-    const vueContainerElement = vueContainerWrapper.$children[0] as InfoVueScript;
+    const vueContainerElement = vueContainerWrapper
+        .$children[0] as InfoVueScript;
 
-    const selector = "div.chapter-container > div > div > a";
+    const selector = 'div.chapter-container > div > div > a';
 
     document.querySelectorAll<HTMLLinkElement>(selector).forEach((element) => {
-        element.addEventListener("mouseover", () => {
-
+        element.addEventListener('mouseover', () => {
             if (!timeoutId) {
                 timeoutId = window.setTimeout(async () => {
                     vueContainerElement.clearData();
@@ -70,14 +79,14 @@ async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
 
                     vueContainerElement.moveLocationToElement(element);
 
-                    vueContainerElement.changeManga((await similyCacheControl(element.href)));
-
+                    vueContainerElement.changeManga(
+                        await similyCacheControl(element.href)
+                    );
                 }, 300); // todo: don't hard code this value
             }
-
         });
 
-        element.addEventListener("mouseout", () => {
+        element.addEventListener('mouseout', () => {
             if (timeoutId) {
                 window.clearTimeout(timeoutId);
                 timeoutId = null;
@@ -86,5 +95,4 @@ async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
             }
         });
     });
-
 })();
