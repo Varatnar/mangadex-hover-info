@@ -8,7 +8,7 @@ const BASE_MANGADEX_URL: string = "https://mangadex.org";
 const BASE_API_URL: string = `${BASE_MANGADEX_URL}/api`;
 const BASE_MANGA_API_URL: string = `${BASE_API_URL}/manga`;
 
-let timeoutId: number|null = null
+let timeoutId: number | null = null;
 
 const similyCacheMap: Map<any, MangaInfo> = new Map();
 
@@ -38,7 +38,7 @@ function extractMangaIdFromUrl(mangaUrl: string): string {
 
 async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
     if (similyCacheMap.has(cacheKey)) {
-        return similyCacheMap.get(cacheKey) as MangaInfo; // if clause make sure it is not undefined
+        return similyCacheMap.get(cacheKey) as MangaInfo; // if statement makes sure it is not undefined
     } else {
         const retrievedManga: MangaInfo = await retrieveMangaInfoWithApiCall(extractMangaIdFromUrl(cacheKey));
         similyCacheMap.set(cacheKey, retrievedManga);
@@ -60,8 +60,7 @@ async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
 
     const selector = "div.chapter-container > div > div > a";
 
-    // @ts-ignore
-    document.querySelectorAll(selector).forEach((element: HTMLLinkElement) => {
+    document.querySelectorAll<HTMLLinkElement>(selector).forEach((element) => {
         element.addEventListener("mouseover", () => {
 
             if (!timeoutId) {
