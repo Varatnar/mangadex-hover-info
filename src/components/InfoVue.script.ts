@@ -36,7 +36,16 @@ export default class InfoVueScript extends Vue {
     }
 
     private bbcodeFormat(): string {
-        return parser.parse(this.manga.description);
+        let outputString;
+
+        try {
+            outputString = parser.parse(this.manga.description);
+        } catch (e) {
+            console.log(e);
+            outputString = this.manga.description;
+        }
+
+        return outputString;
     }
 }
 

@@ -18,7 +18,8 @@
       ],
       "matches": [
         "*://mangadex.org/follows*",
-        "*://mangadex.org/group*"
+        "*://mangadex.org/group*",
+        "*://mangadex.org/user*"
       ],
       "run_at": "document_end"
     }

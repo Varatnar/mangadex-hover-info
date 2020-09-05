@@ -2,6 +2,7 @@ import { Vue } from "vue-property-decorator";
 import InfoVue from "./components/InfoVue.vue";
 import { MangaInfo } from "./MangaInfo";
 import { MangaModel } from "./models/api/MangaModel";
+import InfoVueScript from "./components/InfoVue.script";
 
 const BASE_MANGADEX_URL: string = "https://mangadex.org";
 const BASE_API_URL: string = `${BASE_MANGADEX_URL}/api`;
@@ -55,7 +56,7 @@ async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
         render: (h) => h(InfoVue),
     }).$mount("#vueContainer");
 
-    const vueContainerElement: InfoVue = vueContainerWrapper.$children[0] as InfoVue;
+    const vueContainerElement = vueContainerWrapper.$children[0] as InfoVueScript;
 
     const selector = "div.chapter-container > div > div > a";
 
@@ -64,14 +65,11 @@ async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
 
             if (!timeoutId) {
                 timeoutId = window.setTimeout(async () => {
-                    // @ts-ignore
                     vueContainerElement.clearData();
                     timeoutId = null;
 
-                    // @ts-ignore
                     vueContainerElement.moveLocationToElement(element);
 
-                    // @ts-ignore
                     vueContainerElement.changeManga((await similyCacheControl(element.href)));
 
                 }, 300); // todo: don't hard code this value
@@ -84,7 +82,6 @@ async function similyCacheControl(cacheKey: any): Promise<MangaInfo> {
                 window.clearTimeout(timeoutId);
                 timeoutId = null;
             } else {
-                // @ts-ignore
                 vueContainerElement.hide();
             }
         });

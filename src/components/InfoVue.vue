@@ -3,7 +3,7 @@
         <img class="manga-image" :src="manga.imagePath">
         <div class="manga-description">
             <span v-html="this.bbcodeFormat()"></span>
-            <div>
+            <div class="tags-box">
                 <p v-if="manga.tags.length > 0"><b>Tags :</b><br>
                     <span v-for="tag in manga.tags" class="tag-description badge">{{tag.name}}</span>
                 </p>
@@ -28,6 +28,7 @@
         padding: 1px;
         border: 1px white solid;
         position: absolute;
+        overflow: auto;
         width: 600px;
         z-index: 9999999;
     }
@@ -40,6 +41,10 @@
         display: -webkit-box;
         -webkit-line-clamp: 17;
         -webkit-box-orient: vertical;
+    }
+
+    .tags-box {
+        float: bottom;
     }
 
     span.tag-description {
