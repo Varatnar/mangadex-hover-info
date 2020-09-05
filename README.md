@@ -16,10 +16,10 @@ https://mangadex.org/ .
        $ yarn
     ```
     
-1. Retrieve the tags id and names
+1. Retrieve the tags id and names from a snapshot of the search page (needs login). [Link to page](https://mangadex.org/search).
 
     ```bash
-       $ yarn tags
+       $ yarn tags {pathToFile}
     ```    
     
 1. Build the project by calling `yarn build`
