@@ -1,5 +1,5 @@
 const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -48,20 +48,22 @@ module.exports = {
     },
     plugins: [
         new VueLoaderPlugin(),
-        new CleanWebpackPlugin([buildPath]),
-        new CopyWebpackPlugin([
-            {
-                from: "src/chrome_manifest.json",
-                to: "manifest.json",
-                transform: (content) => {
-                    return Buffer.from(JSON.stringify({
-                        description: process.env.npm_package_description,
-                        version: process.env.npm_package_version,
-                        ...JSON.parse(content.toString())
-                    }))
-                }
-            },
-            {from: "src/assets", to: "assets"}
-        ]),
+        new CleanWebpackPlugin(),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: "src/chrome_manifest.json",
+                    to: "manifest.json",
+                    transform: (content) => {
+                        return Buffer.from(JSON.stringify({
+                            description: process.env.npm_package_description,
+                            version: process.env.npm_package_version,
+                            ...JSON.parse(content.toString())
+                        }))
+                    }
+                },
+                {from: "src/assets", to: "assets"}
+            ]
+        }),
     ]
 };
